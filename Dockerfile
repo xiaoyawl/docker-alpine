@@ -1,4 +1,4 @@
-FROM alpine:3.16
+FROM alpine:3.17
 MAINTAINER from www.dwhd.org by lookback (mondeolove@gmail.com)
 
 ENV TERM=linux
