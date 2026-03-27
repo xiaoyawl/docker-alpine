@@ -1,10 +1,10 @@
 # docker-alpine
 
-基于 `alpine:3.20` 的常用开发容器镜像，内置常见工具与交互体验优化（`bash`、`vim`、`tree`、`ripgrep` 等）。
+基于 Alpine 的常用开发容器镜像，内置常见工具与交互体验优化（`bash`、`vim`、`tree`、`ripgrep` 等）。
 
 ## 功能说明
 
-- 基础镜像：`alpine:3.20`
+- 支持基础版本：`3.20`、`3.21`、`3.22`、`3.23`
 - 默认进入：`bash` 登录环境
 - 预装工具：
   - `bash`、`bash-completion`
@@ -21,7 +21,7 @@
 在项目根目录执行：
 
 ```bash
-docker build -t benyoo/alpine:3.20.$(date +%Y%m%d) .
+docker build --build-arg ALPINE_VERSION=3.20 -t benyoo/alpine:3.20.$(date +%Y%m%d) .
 ```
 
 启动容器并进入交互环境：
@@ -57,7 +57,7 @@ alias | rg "ls|vi|tree|rg"
 ### 1) 构建镜像（build）
 
 ```bash
-docker build -t benyoo/alpine:3.20.$(date +%Y%m%d) .
+docker build --build-arg ALPINE_VERSION=3.20 -t benyoo/alpine:3.20.$(date +%Y%m%d) .
 ```
 
 ### 2) 添加镜像标签（tag）
@@ -115,12 +115,22 @@ make release
 make release-all
 ```
 
+快速发布指定版本：
+
+```bash
+make release-3.20
+make release-3.21
+make release-3.22
+make release-3.23
+```
+
 ### 可选变量
 
 - `IMAGE_NAME`：镜像名，默认 `benyoo/alpine`
 - `BASE_VERSION`：基础版本号，默认 `3.20`
 - `DATE_TAG`：日期后缀，默认当天日期（`YYYYMMDD`）
 - `VERSION`：最终版本号，默认 `BASE_VERSION.DATE_TAG`
+- `SUPPORTED_BASE_VERSIONS`：固定 `3.20 3.21 3.22 3.23`
 
 例如发布 `3.21.<当天日期>`：
 
