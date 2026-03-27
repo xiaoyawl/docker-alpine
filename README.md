@@ -21,13 +21,18 @@
 在项目根目录执行：
 
 ```bash
-docker build --build-arg ALPINE_VERSION=3.20 -t benyoo/alpine:3.20.$(date +%Y%m%d) .
+ALPINE_VERSION=3.20
+DATE_TAG=$(date +%Y%m%d)
+docker build --build-arg ALPINE_VERSION=${ALPINE_VERSION} \
+  -t benyoo/alpine:${ALPINE_VERSION}.${DATE_TAG} .
 ```
 
 启动容器并进入交互环境：
 
 ```bash
-docker run --rm -it benyoo/alpine:3.20.$(date +%Y%m%d)
+ALPINE_VERSION=3.20
+DATE_TAG=$(date +%Y%m%d)
+docker run --rm -it benyoo/alpine:${ALPINE_VERSION}.${DATE_TAG}
 ```
 
 ## 常用示例
@@ -52,27 +57,30 @@ alias | rg "ls|vi|tree|rg"
 
 ## 发布流程（build -> tag -> push）
 
-以下以发布 `benyoo/alpine:3.20.<当天日期>` 为例：
+以下以发布 `benyoo/alpine:${ALPINE_VERSION}.${DATE_TAG}` 为例：
 
 ### 1) 构建镜像（build）
 
 ```bash
-docker build --build-arg ALPINE_VERSION=3.20 -t benyoo/alpine:3.20.$(date +%Y%m%d) .
+ALPINE_VERSION=3.20
+DATE_TAG=$(date +%Y%m%d)
+docker build --build-arg ALPINE_VERSION=${ALPINE_VERSION} \
+  -t benyoo/alpine:${ALPINE_VERSION}.${DATE_TAG} .
 ```
 
 ### 2) 添加镜像标签（tag）
 
-将版本标签同时打上 `latest`：
+沿用上一步的 `ALPINE_VERSION` 与 `DATE_TAG` 变量，将版本标签同时打上 `latest`：
 
 ```bash
-docker tag benyoo/alpine:3.20.$(date +%Y%m%d) benyoo/alpine:latest
+docker tag benyoo/alpine:${ALPINE_VERSION}.${DATE_TAG} benyoo/alpine:latest
 ```
 
 ### 3) 推送镜像（push）
 
 ```bash
 docker login
-docker push benyoo/alpine:3.20.$(date +%Y%m%d)
+docker push benyoo/alpine:${ALPINE_VERSION}.${DATE_TAG}
 docker push benyoo/alpine:latest
 ```
 
@@ -81,8 +89,8 @@ docker push benyoo/alpine:latest
 如需同步 Git tag（建议与镜像版本一致）：
 
 ```bash
-git tag 3.20.$(date +%Y%m%d)
-git push origin 3.20.$(date +%Y%m%d)
+git tag ${ALPINE_VERSION}.${DATE_TAG}
+git push origin ${ALPINE_VERSION}.${DATE_TAG}
 ```
 
 ## 自动化发布（Makefile）
