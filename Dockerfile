@@ -1,4 +1,4 @@
-ARG ALPINE_VERSION=3.20
+ARG ALPINE_VERSION=3.24
 FROM alpine:${ALPINE_VERSION}
 LABEL maintainer="from www.dwhd.org by lookback (mondeolove@gmail.com)"
 
