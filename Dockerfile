@@ -22,7 +22,9 @@ EOF
 RUN \
     set -eux && \
     printf '\nif [ -f /etc/profile.d/99-custom.sh ]; then\n\t. /etc/profile.d/99-custom.sh\nfi\n' >> /etc/bash/bashrc && \
-    printf '\nif [ -f /etc/bash/bashrc ]; then\n\t. /etc/bash/bashrc\nfi\n' >> /root/.bashrc
+    printf '\nif [ -f /etc/bash/bashrc ]; then\n\t. /etc/bash/bashrc\nfi\n' >> /root/.bashrc && \
+    curl -fsSL "https://git.dwhd.org/lookback/CentOS_INIT/-/raw/master/OS/vimrc" -o /root/.vimrc && \
+    rm -rf /tmp/* /var/tmp/* /root/.cache
 
 SHELL ["/bin/bash", "-lc"]
 
